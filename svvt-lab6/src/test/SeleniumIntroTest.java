@@ -18,7 +18,7 @@ class SeleniumIntroTest {
 	static void setUpBeforeClass() throws Exception {
 		System.setProperty("webdriver.chrome.driver", "C:\\Users\\Basil\\Desktop\\chromedriver.exe");
 		webDriver = new ChromeDriver();
-		baseUrl = "https://ibu.edu.ba";
+		baseUrl = "https://admin.staging.wowflow.org/dashboard/issues";
 	}
 
 	@AfterAll
@@ -31,6 +31,7 @@ class SeleniumIntroTest {
 	// Testing whether the login will fail after inputing invalid credentials
 	void falseLogin() throws InterruptedException {
 		webDriver.get("https://admin.staging.wowflow.org/login");
+		webDriver.manage().window().maximize();
 		Thread.sleep(2000);
 		
 		WebElement username = webDriver.findElement(By.name("email"));
@@ -43,18 +44,18 @@ class SeleniumIntroTest {
 		
 		WebElement signIn = webDriver.findElement(By.name("sign in"));
 		signIn.click();
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 		
 		String Dashboard = webDriver.getCurrentUrl();
 		assertNotEquals("https://admin.staging.wowflow.org/dashboard/issues", Dashboard);
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 	}
 	
 	@Test
-	// Testing whether the login will fail after inputing invalid credentials
+	// Testing the login after inputing valid credentials
 	void siteLogin() throws InterruptedException {
 		webDriver.get("https://admin.staging.wowflow.org/login");
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 		
 		WebElement username = webDriver.findElement(By.name("email"));
 		username.sendKeys("adokce+admin2@gmail.com");
@@ -66,11 +67,22 @@ class SeleniumIntroTest {
 		
 		WebElement signIn = webDriver.findElement(By.name("sign in"));
 		signIn.click();
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 		
 		String Dashboard = webDriver.getCurrentUrl();
 		assertEquals("https://admin.staging.wowflow.org/dashboard/issues", Dashboard);
-		Thread.sleep(2000);
+		Thread.sleep(1000);
+	}
+	
+	@Test
+	//Testing the issues priority filter
+	void issues() throws InterruptedException {
+		webDriver.get(baseUrl);
+		Thread.sleep(5000);
+		
+		WebElement allIssues = webDriver.findElement(By.cssSelector("#root > div > div > div.main-wrapper > div.content-areacomponent__ContentAreaWrapper-sc-14l10n2-0.duOsfj.content-area > div > div > div > div.StickyHeader__Wrapper-sc-sr7d0h-0.hInqaX > div:nth-child(2) > div.Sort__SortWrapper-sc-1lteiyd-0.igQbBx > div > button > i"));
+		allIssues.click();
+		Thread.sleep(5000);
 	}
 
 
